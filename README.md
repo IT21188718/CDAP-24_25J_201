@@ -1,4 +1,4 @@
-Instalation
+INSTALATION
 
 1.Clone the repository
 git clone https://github.com/IT21188718/CDAP-24_25J_201
