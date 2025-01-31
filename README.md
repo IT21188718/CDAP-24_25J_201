@@ -36,4 +36,9 @@ npm run dev
 # To Run all services
 npm run start:all
 
-
+# Research Areas
+Machine Learning (ML)
+Real Estate Analytics
+Renewable Energy Optimization
+Construction Cost Forecasting
+Human-Centered Design & Collaboration
