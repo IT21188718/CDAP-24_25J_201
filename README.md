@@ -1,3 +1,5 @@
+# Machine Learning Based Automated Constructoin Planning System for SriLanka
+The projects focus on solar energy recommendations, land and house price predictions, construction cost estimation, and interior design collaboration. Below is an overview of each component:
 
 # Solar Recommendation System
 This project aims to develop a solar recommendation system that can help users find the best solar panels for their specific needs. The system will use machine learning algorithms to analyze the user's land size and other relevant factors to provide personalized recommendations. The system will also be able to predict the performance of the solar panels based on the user's location and other environmental factors. The system will be deployed on a cloud platform and can be accessed through a web interface.
