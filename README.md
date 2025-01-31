@@ -42,3 +42,11 @@ Real Estate Analytics
 Renewable Energy Optimization
 Construction Cost Forecasting
 Human-Centered Design & Collaboration
+
+# Problem Statement
+Across multiple industries, decision-making is often manual, time-consuming, and based on outdated methodologies. This project introduces AI-driven solutions to:
+
+1.Recommend the most efficient solar panels based on location and environmental factors.
+2.Provide accurate land and house price predictions for real estate investors.
+3.Estimate construction costs dynamically to prevent budget overruns.
+4.Enhance communication between clients and interior designers for more efficient project execution.
