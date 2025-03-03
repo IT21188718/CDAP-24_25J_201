@@ -18,6 +18,7 @@ model recommendationModel {
   location        String
   landSize        Float
   allowedCapacity Float
+  desiredCapacity Float?
   avgEfficiency   Float
   avgPrice        Float
   finalPrice      Float?

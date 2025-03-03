@@ -38,7 +38,35 @@ const getSolarRecommendation = async (req, res) => {
         });
     }
 };
+const getAllowedCapacity = async (req, res) => {
+    try {
+        const { location, landSize } = req.body;
+        if (!location || !landSize) {
+            return res.status(400).json({ status: false, message: "Location & Land Size are required." });
+        }
+
+        const response = await solarRecommendService.getAllowedCapacity(location, landSize);
+        res.status(response.success ? 200 : 400).json(response);
+    } catch (error) {
+        res.status(500).json({ status: false, message: "Error fetching allowed capacity.", error: error.message });
+    }
+};
+
+const calculateSolarCost = async (req, res) => {
+    try {
+        const { location, landSize, desiredCapacity } = req.body;
+        if (!desiredCapacity) {
+            return res.status(400).json({ status: false, message: "Desired Capacity is required." });
+        }
+
+        const response = await solarRecommendService.calculateSolarCost(location, landSize, desiredCapacity);
+        res.status(response.success ? 200 : 400).json(response);
+    } catch (error) {
+        res.status(500).json({ status: false, message: "Error calculating cost.", error: error.message });
+    }
+};
+
 
 module.exports = {
-    getSolarRecommendation
+    getSolarRecommendation, getAllowedCapacity, calculateSolarCost
 };

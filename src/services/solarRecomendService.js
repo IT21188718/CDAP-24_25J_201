@@ -61,6 +61,47 @@ const recommendSolar = async (req) => {
     }
 };
 
+// STEP 1: Get Allowed Capacity
+const getAllowedCapacity = async (location, landSize) => {
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/recommend', { location, land_size: landSize });
+        return { success: true, data: response.data };
+    } catch (error) {
+        return { success: false, message: error.response?.data?.error || "API error." };
+    }
+};
+
+// STEP 2: Calculate Solar Cost & Store in Database
+const calculateSolarCost = async (location, landSize, desiredCapacity) => {
+    try {
+        // Call the Flask API to get cost estimation
+        const response = await axios.post('http://127.0.0.1:5000/calculate_cost', { 
+            location, 
+            land_size: landSize, 
+            desired_capacity: desiredCapacity 
+        });
+
+        const costData = response.data;
+
+        // Store the cost calculation in the database
+        const savedCostData = await saveRecommendationToDB(costData);
+
+        return {
+            success: true,
+            data: costData,
+            savedToDb: savedCostData
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response?.data?.error || "API error.",
+            error: error.message
+        };
+    }
+};
+
+
+
 module.exports = {
-    recommendSolar
+    recommendSolar, getAllowedCapacity, calculateSolarCost
 };
