@@ -5,8 +5,8 @@ const recommendationController = require('../src/controllers/recommendationServi
 const router = express.Router();
 
 // Solar Recommendation Routes
-router.post('/api/recommend-solar', solarController.getSolarRecommendation);
-router.get('/api/solar/allowed-capacity', solarController.getAllowedCapacity);
+// router.post('/api/recommend-solar', solarController.getSolarRecommendation);
+router.post('/api/solar/allowed-capacity', solarController.getAllowedCapacity);
 router.post('/api/solar/calculate-cost', solarController.calculateSolarCost);
 
 // Location Routes
