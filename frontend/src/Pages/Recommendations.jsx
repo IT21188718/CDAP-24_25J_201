@@ -31,7 +31,7 @@ const Recommendations = () => {
     <div className="min-h-screen bg-gray-100 text-gray-900 p-6">
        {/* Previous Page Button */}
        <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(-2)}
         className="mt-15 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
       >
         Previous Page
