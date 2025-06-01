@@ -19,19 +19,19 @@
 
 * **Sathurjan K**
   Department of Information Technology, Sri Lanka Institute of Information Technology
-  Email: [it21188718@my.sliit.lk](mailto:it21188718@my.sliit.lk)
+   Email: [it21188718@my.sliit.lk](mailto:it21188718@my.sliit.lk)
 
 * **R A Ahamed**
   Department of Information Technology, Sri Lanka Institute of Information Technology
-  Email: [it21158018@my.sliit.lk](mailto:it21158018@my.sliit.lk)
+   Email: [it21158018@my.sliit.lk](mailto:it21158018@my.sliit.lk)
 
 * **Linganathan J**
   Department of Information Technology, Sri Lanka Institute of Information Technology
-  Email: [it21223808@my.sliit.lk](mailto:it21223808@my.sliit.lk)
+   Email: [it21223808@my.sliit.lk](mailto:it21223808@my.sliit.lk)
 
 * **Silva A.A.I**
   Department of Information Technology, Sri Lanka Institute of Information Technology
-  Email: [it21301254@my.sliit.lk](mailto:it21301254@my.sliit.lk)
+   Email: [it21301254@my.sliit.lk](mailto:it21301254@my.sliit.lk)
 
 ---
 
