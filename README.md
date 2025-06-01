@@ -4,12 +4,13 @@
 
 # Machine Learning Based Automated Construction Planning System for Sri Lanka
 
-## Supervisors
+## Supervisor
 
 * **Mr. Supunya Swarnakantha**
   Department of Information Technology, Sri Lanka Institute of Information Technology
   Email: [ravi.s@sliit.lk](mailto:ravi.s@sliit.lk)
-
+  
+## Co-Supervisor
 * **Dr. Dharshana Kasthurirathna**
   Department of Computer Science and Information Technology, Sri Lanka Institute of Information Technology
   Email: [dharshana.k@my.sliit.lk](mailto:dharshana.k@my.sliit.lk)
