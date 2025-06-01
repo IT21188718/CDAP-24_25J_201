@@ -31,7 +31,7 @@ const SolarPanel = () => {
   // Handle form submission to get allowed capacity
   const handleGetCapacity = async (e) => {
     e.preventDefault();
-
+// validation
     if (!selectedLocation || !landSize) {
       alert("Please select a location and enter a land size.");
       return;

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const CostEstimation = () => {
   const location = useLocation();
   const { location: selectedLocation, landSize, allowedCapacity } = location.state;
@@ -10,6 +12,8 @@ const CostEstimation = () => {
 
   const [desiredCapacity, setDesiredCapacity] = useState("");
   const [costEstimation, setCostEstimation] = useState(null);
+  const [error, setError] = useState(""); // State for error message
+
   const handleProceedToRecommend = () => {
     navigate("/solar-recommend", {
       state: {
@@ -19,18 +23,34 @@ const CostEstimation = () => {
       },
     });
   };
+
   // Handle cost estimation request
   const handleEstimateCost = async () => {
+    const capacity = Number(desiredCapacity);
+
+    // Input validation
     if (!desiredCapacity) {
-      alert("Please enter the desired capacity.");
+      setError("Please enter the desired capacity.");
       return;
     }
+
+    if (isNaN(capacity) || capacity <= 0) {
+      setError("Desired capacity must be a positive number.");
+      return;
+    }
+
+    if (capacity > allowedCapacity) {
+      setError(`Desired capacity cannot exceed the allowed capacity of ${allowedCapacity} kW.`);
+      return;
+    }
+
+    setError(""); // Clear error if validation passes
 
     try {
       const requestData = {
         location: selectedLocation,
         landSize: Number(landSize),
-        desiredCapacity: Number(desiredCapacity),
+        desiredCapacity: capacity,
       };
 
       console.log("Sending request:", requestData);
@@ -69,8 +89,11 @@ const CostEstimation = () => {
           type="number"
           value={desiredCapacity}
           onChange={(e) => setDesiredCapacity(e.target.value)}
-          className="w-full p-2 border rounded-md mb-4"
+          className="w-full p-2 border rounded-md mb-2"
         />
+
+        {/* Error Message Display */}
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
 
         {/* Button to fetch cost estimation */}
         <button
@@ -103,18 +126,18 @@ const CostEstimation = () => {
                 <td className="p-3 font-semibold">Desired Capacity (kW):</td>
                 <td className="p-3">{costEstimation.desired_capacity}</td>
               </tr>
-              <tr className="border-b">
+              {/* <tr className="border-b">
                 <td className="p-3 font-semibold">Predicted Efficiency (%):</td>
                 <td className="p-3">{costEstimation.avg_efficiency.toFixed(2)}</td>
-              </tr>
+              </tr> */}
               <tr className="border-b">
                 <td className="p-3 font-semibold">Average Price (Rs):</td>
                 <td className="p-3">Rs.{costEstimation.avg_price.toLocaleString()}</td>
               </tr>
-              <tr className="border-b">
+              {/* <tr className="border-b">
                 <td className="p-3 font-semibold">Predicted Panels:</td>
                 <td className="p-3">{costEstimation.predicted_panels.toLocaleString()}</td>
-              </tr>
+              </tr> */}
               <tr className="border-b">
                 <td className="p-3 font-semibold">Panels Fit in Land:</td>
                 <td className="p-3">{costEstimation.panels_fit_in_land}</td>

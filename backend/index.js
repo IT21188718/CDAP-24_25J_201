@@ -27,7 +27,7 @@ const corsOptions = {
   optionsSuccessStatus: 200 // Optionally set to return a 200 status for OPTIONS requests
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); //frontend can communicate with the backend.
 app.use(routes);
 
 const startServer = async () => {
