@@ -1,7 +1,14 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import joblib
+from tensorflow.keras.models import load_model
+import tensorflow as tf
+from PIL import Image
+import numpy as np
+import io
+from flask_cors import CORS
 
+ 
 # Load trained models and datasets
 model = joblib.load('./pickle/linear_regression_model.pkl')
 price_model = joblib.load('./pickle/price_model.pkl')
@@ -33,6 +40,7 @@ substation_data['Name of the Substation'] = substation_data['Name of the Substat
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"])
 
 # -------------------------------
 # 1️⃣ STEP 1: Get Allowed Capacity
@@ -142,6 +150,37 @@ def calculate_cost():
         "final_price": final_price
     })
 
+
+
+# Load the model once when the server starts
+model = load_model('./pickle/solar_fault_model.h5')
+
+class_names = ['Bird-drop', 'Clean', 'Dusty', 'Electrical-damage', 'Physical-Damage', 'Snow-Covered']
+IMG_SIZE = (224, 224)
+
+def prepare_image(image_bytes):
+    img = Image.open(io.BytesIO(image_bytes)).convert('RGB').resize(IMG_SIZE)
+    img_array = np.array(img) / 255.0
+    img_array = np.expand_dims(img_array, 0)
+    return img_array
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image file provided'}), 400
+    
+    file = request.files['image']
+    img_bytes = file.read()
+    img_array = prepare_image(img_bytes)
+    
+    preds = model.predict(img_array)
+    predicted_class = class_names[np.argmax(preds[0])]
+    fault = predicted_class != 'Clean'
+
+    return jsonify({
+        'fault': fault,
+        'feedback': predicted_class
+    })
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

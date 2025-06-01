@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MdMenu, MdClose, MdKeyboardArrowDown, MdSearch } from "react-icons/md";
+import { Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 import "../index.css";
 
@@ -10,9 +11,17 @@ export const NavbarMenu = [
     title: "Services",
     dropdown: true,
     submenu: [
-      { id: 21, title: "Land and house price prediction", link: "/house prediction" },
-      { id: 22, title: "Construction cost estimation", link: "/cost estimation" },
-      { id: 23, title: "SolarPanel", link: "/solar" },
+      { id: 21, title: "Land and house price prediction", link: "/house-prediction" },
+      { id: 22, title: "Construction cost estimation", link: "/cost-estimation" },
+      {
+        id: 23,
+        title: "SolarPanel",
+        dropdown: true,
+        submenu: [
+          { id: 231, title: "Solar Inquire", link: "/solar" },
+          { id: 232, title: "Fault Detection", link: "/solar-fault-detection" },
+        ],
+      },
       { id: 24, title: "Interior Design", link: "/interior" },
     ],
   },
@@ -23,11 +32,17 @@ export const NavbarMenu = [
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [subDropdownOpen, setSubDropdownOpen] = useState(null); // for SolarPanel submenu dropdown
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleDropdown = (id) => {
     setDropdownOpen(dropdownOpen === id ? null : id);
+    setSubDropdownOpen(null); // close subdropdown when toggling main dropdown
+  };
+
+  const toggleSubDropdown = (id) => {
+    setSubDropdownOpen(subDropdownOpen === id ? null : id);
   };
 
   const handleSearch = (e) => {
@@ -54,33 +69,68 @@ const Navbar = () => {
               <li key={item.id} className="relative group">
                 <button
                   className="flex items-center gap-1 hover:text-amber-600 transition"
-                  onMouseEnter={() => setDropdownOpen(item.id)}
+                  onMouseEnter={() => toggleDropdown(item.id)}
                   // onMouseLeave={() => setDropdownOpen(null)}
                 >
                   {item.title} <MdKeyboardArrowDown className="group-hover:rotate-180 duration-300" />
                 </button>
+
                 {dropdownOpen === item.id && (
-                  <ul 
-                  onMouseLeave={() => setDropdownOpen(null)}
-                  className="absolute left-0 top-full mt-2 w-48 bg-gray-800 text-white rounded-md shadow-lg">
-                    {item.submenu.map((sub) => (
-                      <li
-                       
-                     
-                      key={sub.id} className="border-b border-gray-700 last:border-none">
-                        <a href={sub.link} className="block px-4 py-2 hover:bg-gray-700 transition">
-                          {sub.title}
-                        </a>
-                      </li>
-                    ))}
+                  <ul
+                    onMouseLeave={() => setDropdownOpen(null)}
+                    className="absolute left-0 top-full mt-2 w-48 bg-gray-800 text-white rounded-md shadow-lg"
+                  >
+                    {item.submenu.map((sub) =>
+                      sub.dropdown ? (
+                        <li
+                          key={sub.id}
+                          className="relative group border-b border-gray-700 last:border-none"
+                          onMouseEnter={() => toggleSubDropdown(sub.id)}
+                          // onMouseLeave={() => setSubDropdownOpen(null)}
+                        >
+                          <button className="w-full text-left px-4 py-2 hover:bg-gray-700 flex justify-between items-center">
+                            {sub.title} <MdKeyboardArrowDown />
+                          </button>
+
+                          {subDropdownOpen === sub.id && (
+                            <ul className="absolute left-full top-0 mt-0 ml-1 w-48 bg-gray-700 rounded-md shadow-lg">
+                              {sub.submenu.map((subSub) => (
+                                <li key={subSub.id} className="border-b border-gray-600 last:border-none">
+                                  <Link
+                                    to={subSub.link}
+                                    className="block px-4 py-2 hover:bg-gray-600 transition"
+                                    onClick={() => {
+                                      setDropdownOpen(null);
+                                      setSubDropdownOpen(null);
+                                    }}
+                                  >
+                                    {subSub.title}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ) : (
+                        <li key={sub.id} className="border-b border-gray-700 last:border-none">
+                          <Link
+                            to={sub.link}
+                            className="block px-4 py-2 hover:bg-gray-700 transition"
+                            onClick={() => setDropdownOpen(null)}
+                          >
+                            {sub.title}
+                          </Link>
+                        </li>
+                      )
+                    )}
                   </ul>
                 )}
               </li>
             ) : (
               <li key={item.id}>
-                <a href={item.link} className="hover:text-amber-600 transition">
+                <Link to={item.link} className="hover:text-amber-600 transition">
                   {item.title}
-                </a>
+                </Link>
               </li>
             )
           )}
@@ -133,21 +183,62 @@ const Navbar = () => {
                   </button>
                   {dropdownOpen === item.id && (
                     <ul className="w-full bg-gray-700 rounded-md mt-1">
-                      {item.submenu.map((sub) => (
-                        <li key={sub.id} className="border-b border-gray-600 last:border-none">
-                          <a href={sub.link} className="block px-4 py-2 hover:bg-gray-600 transition">
-                            {sub.title}
-                          </a>
-                        </li>
-                      ))}
+                      {item.submenu.map((sub) =>
+                        sub.dropdown ? (
+                          <li key={sub.id} className="w-full">
+                            <button
+                              className="flex justify-between items-center w-full px-4 py-2 hover:bg-gray-600 transition"
+                              onClick={() => toggleSubDropdown(sub.id)}
+                            >
+                              {sub.title} <MdKeyboardArrowDown />
+                            </button>
+                            {subDropdownOpen === sub.id && (
+                              <ul className="w-full bg-gray-600 rounded-md mt-1">
+                                {sub.submenu.map((subSub) => (
+                                  <li key={subSub.id} className="border-b border-gray-500 last:border-none">
+                                    <Link
+                                      to={subSub.link}
+                                      className="block px-4 py-2 hover:bg-gray-500 transition"
+                                      onClick={() => {
+                                        setDropdownOpen(null);
+                                        setSubDropdownOpen(null);
+                                        setMenuOpen(false);
+                                      }}
+                                    >
+                                      {subSub.title}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        ) : (
+                          <li key={sub.id} className="border-b border-gray-600 last:border-none">
+                            <Link
+                              to={sub.link}
+                              className="block px-4 py-2 hover:bg-gray-600 transition"
+                              onClick={() => {
+                                setDropdownOpen(null);
+                                setMenuOpen(false);
+                              }}
+                            >
+                              {sub.title}
+                            </Link>
+                          </li>
+                        )
+                      )}
                     </ul>
                   )}
                 </li>
               ) : (
                 <li key={item.id}>
-                  <a href={item.link} className="block py-2 text-lg hover:text-amber-600 transition">
+                  <Link
+                    to={item.link}
+                    className="block py-2 text-lg hover:text-amber-600 transition"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               )
             )}
