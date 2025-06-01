@@ -1,4 +1,4 @@
-Here's a suggested README format for your research GitHub repo, including sections for supervisor, co-supervisor, members, and a concise overall research description based on the paper you provided.
+
 
 ---
 
